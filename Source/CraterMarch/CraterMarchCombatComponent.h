@@ -1,8 +1,8 @@
 // =====================================================
 // CraterMarchCombatComponent.h
-// Purpose: This is the brain of the combat system.
-// It handles charging attacks, hit detection, and initiates grabs.
-// Everything important here is designed to be server-authoritative.
+// Purpose: Core combat logic for the prototype.
+// Handles charging attacks, hit detection, and initiates the grab system.
+// All critical combat decisions are server-authoritative.
 // =====================================================
 
 #pragma once
@@ -35,6 +35,31 @@ public:
     UPROPERTY(EditAnywhere, Category = "Combat|Charge")
     float MaxChargeTime = 1.8f;
 
+    UPROPERTY(EditAnywhere, Category = "Combat|Damage")
+    float BaseBiteDamage = 22.0f;
+
+    UPROPERTY(EditAnywhere, Category = "Combat|Stamina")
+    float ChargeStaminaCostPerSecond = 12.0f;
+
+    // Called from character input
+    UFUNCTION(BlueprintCallable, Category = "Combat")
+    void StartChargingAttack();
+
+    UFUNCTION(BlueprintCallable, Category = "Combat")
+    void ReleaseAttack();
+
+    UFUNCTION(Server, Reliable, WithValidation)
+    void Server_ReleaseAttack();
+
+protected:
+    float CurrentChargeTime = 0.0f;
+    bool bIsCharging = false;
+
+    virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+private:
+    float CalculateDamage(float ChargeRatio) const;
+};
     UPROPERTY(EditAnywhere, Category = "Combat|Damage")
     float BaseBiteDamage = 22.0f;
 
