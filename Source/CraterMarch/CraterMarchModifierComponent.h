@@ -2,7 +2,7 @@
 // CraterMarchModifierComponent.h
 // Purpose: This component handles the Left and Right modifier inputs (Shift keys).
 // It is the foundation of the unique combat system - it translates player input into 
-// neck control data that other systems (NeckControl and Combat) use.
+// rig control data that other systems (RigControl and Combat) use.
 // =====================================================
 
 #pragma once
@@ -36,7 +36,7 @@ public:
     UPROPERTY(Replicated)
     bool bIsHighPosture = false;
 
-    // Helper functions used by NeckControlComponent and CombatComponent
+    // Helper functions used by RigControlComponent and CombatComponent
     UFUNCTION(BlueprintCallable, Category = "Modifier")
     float GetNeckTurnValue() const { return NeckTurnValue; }
 
